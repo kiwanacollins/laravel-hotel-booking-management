@@ -178,3 +178,18 @@ npm run build
 ## Laravel License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+Super
+
+Email: john@gmail.com
+Password: workwithjohn
+Admin
+
+Email: admin@gmail.com
+Password: admin12345
+Customer
+
+Email: customer@gmail.com
+Password: customer12345
