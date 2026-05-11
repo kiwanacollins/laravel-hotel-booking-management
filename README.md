@@ -186,14 +186,13 @@ npm run dev
 http://127.0.0.1:8000/login
 
 Super
-
 Email: john@gmail.com
 Password: workwithjohn
-Admin
 
+Admin
 Email: admin@gmail.com
 Password: admin12345
-Customer
 
+Customer
 Email: customer@gmail.com
 Password: customer12345
