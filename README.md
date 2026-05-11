@@ -177,9 +177,13 @@ npm run build
 
 ## Laravel License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).d
 
 
+php artisan serve
+npm run dev
+
+http://127.0.0.1:8000/login
 
 Super
 
