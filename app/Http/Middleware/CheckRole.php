@@ -16,11 +16,25 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if(in_array($request->user()->role, $roles))
+        // Debug logging
+        \Log::info('Role Check', [
+            'current_user_role' => $request->user()->role ?? 'No Role',
+            'allowed_roles' => $roles,
+            'user_id' => $request->user()->id ?? 'No User'
+        ]);
+
+        if ($request->user() && in_array($request->user()->role, $roles))
         {
             return $next($request);
         }
 
-        return redirect()->back()->with('failed','You are not authorized');
+        // More detailed error logging
+        \Log::warning('Dashboard Access Denied', [
+            'user_role' => $request->user()->role ?? 'No Role',
+            'required_roles' => $roles,
+            'user_id' => $request->user()->id ?? 'No User'
+        ]);
+
+        return redirect('login')->with('failed', 'You are not authorized to access this page');
     }
 }
