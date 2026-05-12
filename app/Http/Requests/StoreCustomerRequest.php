@@ -30,7 +30,8 @@ class StoreCustomerRequest extends FormRequest
             'birthdate' => 'required|date',
             'gender' => 'required|in:Male,Female',
             'email' => 'required|unique:users,email',
-            'avatar' => 'mimes:png,jpg',
+            'telephone' => 'nullable|string|max:20',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

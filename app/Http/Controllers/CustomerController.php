@@ -32,6 +32,12 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         $customer = $this->customerRepository->store($request);
+
+        // Profile Picture Upload
+        if ($request->hasFile('profile_picture')) {
+            $customer->uploadProfilePicture($request->file('profile_picture'));
+        }
+
         return redirect('customer')->with('success', 'Customer ' . $customer->name . ' created');
     }
 

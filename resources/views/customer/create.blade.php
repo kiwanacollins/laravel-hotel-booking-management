@@ -56,6 +56,16 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
+                            <label for="telephone" class="form-label">Telephone</label>
+                            <input type="tel" class="form-control @error('telephone') is-invalid @enderror" id="telephone" name="telephone"
+                                value="{{ old('telephone') }}" placeholder="e.g. +256 123 456 789">
+                            @error('telephone')
+                                <div class="text-danger mt-1">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-12">
                             <label for="job" class="form-label">Job</label>
                             <input type="text" class="form-control @error('job') is-invalid @enderror" id="job" name="job"
                                 value="{{ old('job') }}">
@@ -75,14 +85,21 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-mg-12">
-                            <label for="avatar" class="form-label">Profile Picture</label>
-                            <input class="form-control" type="file" name="avatar" id="avatar">
-                            @error('avatar')
+                        <div class="col-md-12">
+                            <label for="profile_picture" class="form-label">Profile Picture</label>
+                            <input class="form-control" type="file" name="profile_picture" id="profile_picture" accept="image/*">
+                            <small class="form-text text-muted">Allowed formats: JPG, PNG, GIF (max 2MB)</small>
+                            @error('profile_picture')
                                 <div class="text-danger mt-1">
                                     {{ $message }}
                                 </div>
                             @enderror
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <div class="preview-container" style="max-width: 200px; margin: 0 auto;">
+                                <img id="profile_preview" src="#" alt="Profile Picture Preview" 
+                                     style="display:none; max-width: 100%; border-radius: 50%;">
+                            </div>
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn myBtn shadow-sm border float-end">Save</button>
@@ -93,4 +110,33 @@
         </div>
     </div>
 
+@endsection
+@section('footer')
+<script>
+    document.getElementById('profile_picture').addEventListener('change', function(e) {
+        const preview = document.getElementById('profile_preview');
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadstart = function() {
+            preview.style.display = 'block';
+            preview.src = '{{ asset('img/loading.gif') }}';
+        }
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        }
+
+        reader.onerror = function() {
+            preview.style.display = 'none';
+            alert('Error loading image');
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+</script>
 @endsection

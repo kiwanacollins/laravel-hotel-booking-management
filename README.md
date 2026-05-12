@@ -192,6 +192,24 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - Enhanced chart colors to match the new theme
 - Implemented responsive and interactive design elements
 
+## New Features
+- Customer Profile Picture Upload
+  - Added profile picture field in customer creation
+  - Client-side image preview
+  - Secure file storage
+- Telephone Number Field for Customers
+  - New input for customer telephone number
+  - Updated database and form validation
+- Enhanced Dashboard
+  - Room status overview with available/occupied rooms
+  - Detailed room status tracking
+  - Occupancy rate visualization
+  - Room type and status breakdown
+- PDF Export for Reports
+  - Enabled PDF generation for Daily, Weekly, Monthly, and Annual reports
+  - Consistent formatting
+  - Detailed information display
+
 
 php artisan serve
 npm run dev

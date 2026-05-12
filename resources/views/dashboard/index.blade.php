@@ -6,20 +6,45 @@
             <div class="col-lg-6 mb-3">
                 <div class="row mb-3">
                     <div class="col-lg-6">
-                        <div class="card shadow-sm border" style="border-radius: 0.5rem">
+                        <div class="card shadow-sm border" style="border-radius: 0.5rem; background-color: #e6f2ff;">
                             <div class="card-body">
-                                <h5>{{ count($transactions) }} Guests this day</h5>
+                                <h5>Room Status Overview</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-success me-2">Available: {{ $availableRooms }}</span>
+                                        <span class="badge bg-danger">Occupied: {{ $occupiedRooms }}</span>
+                                    </div>
+                                    <div class="text-muted">Total Rooms: {{ $totalRooms }}</div>
+                                </div>
+                                <div class="progress mt-2" style="height: 10px;">
+                                    <div class="progress-bar bg-success" role="progressbar" 
+                                         style="width: {{ ($availableRooms / $totalRooms) * 100 }}%" 
+                                         aria-valuenow="{{ ($availableRooms / $totalRooms) * 100 }}" 
+                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" 
+                                         style="width: {{ ($occupiedRooms / $totalRooms) * 100 }}%" 
+                                         aria-valuenow="{{ ($occupiedRooms / $totalRooms) * 100 }}" 
+                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="card shadow-sm border" style="border-radius: 0.5rem">
+                        <div class="card shadow-sm border" style="border-radius: 0.5rem; background-color: #e6f2ff;">
                             <div class="card-body text-center">
-                                <h5>Dashboard</h5>
+                                <h5>Guest Overview</h5>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="text-muted">Today's Guests:</span>
+                                        <strong>{{ count($transactions) }}</strong>
+                                    </div>
+                                    <div>
+                                        <span class="text-muted">Occupancy Rate:</span>
+                                        <strong>{{ number_format(($occupiedRooms / $totalRooms) * 100, 1) }}%</strong>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box border -->
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -183,3 +208,53 @@
             })
     </script>
 @endsection --}}
+<div class="row mb-3">
+            <div class="col-lg-12">
+                <div class="card shadow-sm border">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-12 d-flex justify-content-between">
+                                <h3>Room Status Details</h3>
+                                <div>
+                                    <a href="#room-status-details" class="btn btn-tool btn-sm" data-bs-toggle="collapse">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body collapse" id="room-status-details">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Room Number</th>
+                                        <th>Room Type</th>
+                                        <th>Room Status</th>
+                                        <th>Occupancy</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($roomStatusDistribution as $room)
+                                        <tr>
+                                            <td>{{ $room->number }}</td>
+                                            <td>{{ $room->type_name }}</td>
+                                            <td>
+                                                <span class="badge {{ $room->status_name == 'Clean' ? 'bg-success' : 'bg-warning' }}">
+                                                    {{ $room->status_name }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge {{ $room->occupancy_status == 'Occupied' ? 'bg-danger' : 'bg-success' }}">
+                                                    {{ $room->occupancy_status }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

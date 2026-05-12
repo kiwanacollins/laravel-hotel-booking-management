@@ -437,8 +437,46 @@ class ReportController extends Controller
      */
     public function exportPDF($type, Request $request)
     {
-        // Implementation for PDF export
-        // This would require a PDF library like TCPDF or Dompdf
+        switch ($type) {
+            case 'daily':
+                $data = $this->getDailyData($request->input('date', now()));
+                $charts = $this->getDailyCharts($request->input('date', now()));
+                break;
+            case 'weekly':
+                $year = $request->input('year', now()->year);
+                $week = $request->input('week', now()->weekOfYear);
+                $data = $this->getWeeklyData($year, $week);
+                $charts = $this->getWeeklyCharts($year, $week);
+                break;
+            case 'monthly':
+                $year = $request->input('year', now()->year);
+                $month = $request->input('month', now()->month);
+                $data = $this->getMonthlyData($year, $month);
+                $charts = $this->getMonthlyCharts($year, $month);
+                break;
+            case 'annual':
+                $year = $request->input('year', now()->year);
+                $data = $this->getAnnualData($year);
+                $charts = $this->getAnnualCharts($year);
+                break;
+            default:
+                return response()->json(['error' => 'Invalid report type'], 400);
+        }
+
+        // Generate PDF using mPDF
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 15,
+            'margin_bottom' => 15
+        ]);
+
+        $mpdf->WriteHTML(view('report.pdf_export', compact('type', 'data', 'charts'))->render());
+
+        // Stream the PDF
+        return $mpdf->Output("hotel_management_{$type}_report.pdf", 'D');
     }
 
     /**
