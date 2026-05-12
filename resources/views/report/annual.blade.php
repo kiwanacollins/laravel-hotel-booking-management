@@ -171,7 +171,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card revenue">
                     <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value">{{ number_format($data['totalRevenue'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['totalRevenue']) }}</div>
                     <small class="text-muted">{{ $data['payments']->count() }} payments</small>
                 </div>
             </div>
@@ -185,7 +185,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card occupancy">
                     <div class="metric-label">Avg. Monthly Revenue</div>
-                    <div class="metric-value">{{ number_format($data['averageRevenuePerMonth'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['averageRevenuePerMonth']) }}</div>
                     <small class="text-muted">Per month average</small>
                 </div>
             </div>
@@ -295,7 +295,7 @@
                                         <td><strong>{{ $customerData->name ?? 'N/A' }}</strong></td>
                                         <td>{{ $customerData->user->email ?? 'N/A' }}</td>
                                         <td>{{ $customer->bookings }}</td>
-                                        <td>{{ number_format($totalSpent, 0, ',', '.') }}</td>
+                                        <td>{{ Helper::convertToUGX($totalSpent) }}</td>
                                         <td>{{ number_format($avgStay, 1) }} days</td>
                                     </tr>
                                 @endforeach
@@ -329,7 +329,7 @@
                     @endphp
                     {{ \Carbon\Carbon::create(null, $bestMonth)->format('F') }}
                 </div>
-                <div>{{ number_format($maxRevenue, 0, ',', '.') }}</div>
+                <div>{{ Helper::convertToUGX($maxRevenue) }}</div>
             </div>
             <div class="comparison-card">
                 <div class="label">Avg. Daily Occupancy</div>
@@ -348,7 +348,7 @@
                         $totalDays = 365;
                         $avgDailyRate = $data['totalRevenue'] / $totalDays;
                     @endphp
-                    {{ number_format($avgDailyRate, 0, ',', '.') }}
+                    {{ Helper::convertToUGX($avgDailyRate) }}
                 </div>
                 <div>Revenue per day</div>
             </div>

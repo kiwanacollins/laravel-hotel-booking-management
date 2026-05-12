@@ -135,7 +135,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card revenue">
                     <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value">{{ number_format($data['totalRevenue'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['totalRevenue']) }}</div>
                     <small class="text-muted">{{ $data['payments']->count() }} payments</small>
                 </div>
             </div>
@@ -149,7 +149,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card occupancy">
                     <div class="metric-label">Avg. Daily Revenue</div>
-                    <div class="metric-value">{{ number_format($data['averageRevenuePerDay'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['averageRevenuePerDay']) }}</div>
                     <small class="text-muted">Per day average</small>
                 </div>
             </div>
@@ -251,7 +251,7 @@
                                         <td><strong>{{ $roomData->number ?? 'N/A' }}</strong></td>
                                         <td>{{ $roomData->type->name ?? 'N/A' }}</td>
                                         <td>{{ $room->bookings }}</td>
-                                        <td>{{ number_format($room->bookings * $roomData->price, 0, ',', '.') }}</td>
+                                        <td>{{ Helper::convertToUGX($room->bookings * $roomData->price) }}</td>
                                         <td>
                                             <div class="progress" style="height: 20px;">
                                                 <div class="progress-bar" role="progressbar" style="width: {{ min($occupancyRate, 100) }}%;" aria-valuenow="{{ $occupancyRate }}" aria-valuemin="0" aria-valuemax="100">

@@ -51,7 +51,7 @@
                                                 <td>{{ $room->number }}</td>
                                                 <td>{{ $room->type->name }}</td>
                                                 <td>{{ $room->capacity }}</td>
-                                                <td>{{ Helper::convertToRupiah($room->price) }}</td>
+                                                <td>{{ Helper::convertToUGX($room->price) }}</td>
                                                 <td>{{ $room->roomStatus->name }}</td>
                                                 <td>
                                                     <button class="btn btn-light btn-sm rounded shadow-sm border"

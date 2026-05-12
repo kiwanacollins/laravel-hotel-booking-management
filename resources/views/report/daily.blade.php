@@ -124,7 +124,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card revenue">
                     <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value">{{ number_format($data['totalRevenue'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['totalRevenue']) }}</div>
                     <small class="text-muted">{{ $data['transactions']->count() }} payments</small>
                 </div>
             </div>
@@ -145,7 +145,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card">
                     <div class="metric-label">Avg. Room Price</div>
-                    <div class="metric-value">{{ number_format($data['averageRoomPrice'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['averageRoomPrice']) }}</div>
                     <small class="text-muted">Per night</small>
                 </div>
             </div>
@@ -220,7 +220,7 @@
                                         <td>#{{ $transaction->id }}</td>
                                         <td>{{ $transaction->customer->name ?? 'N/A' }}</td>
                                         <td>{{ $transaction->room->number ?? 'N/A' }}</td>
-                                        <td>{{ number_format($transaction->getTotalPrice(), 0, ',', '.') }}</td>
+                                        <td>{{ Helper::convertToUGX($transaction->getTotalPrice()) }}</td>
                                         <td>
                                             <span class="status-badge {{ $transaction->status ? 'status-paid' : 'status-pending' }}">
                                                 {{ $transaction->status == 1 ? 'Completed' : 'Pending' }}

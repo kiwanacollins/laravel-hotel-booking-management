@@ -147,7 +147,7 @@
             <div class="stat-card">
                 <h5>Total Revenue (This Month)</h5>
                 <div class="stat-value">
-                    {{ number_format(\App\Models\Payment::whereMonth('created_at', now()->month)->sum('price'), 0, ',', '.') }}
+                    {{ Helper::convertToUGX(\App\Models\Payment::whereMonth('created_at', now()->month)->sum('price')) }}
                 </div>
             </div>
             <div class="stat-card">

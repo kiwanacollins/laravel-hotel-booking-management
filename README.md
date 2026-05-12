@@ -177,7 +177,12 @@ npm run build
 
 ## Laravel License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).d
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Currency Change
+- Currency changed from Indonesian Rupiah (Rp) to Ugandan Shillings (UGX)
+- Updated `convertToRupiah` method in `app/Helpers/helpers.php` to `convertToUGX`
+- All price displays in the system now use UGX formatting
 
 
 php artisan serve

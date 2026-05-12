@@ -127,7 +127,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card revenue">
                     <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value">{{ number_format($data['totalRevenue'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['totalRevenue']) }}</div>
                     <small class="text-muted">{{ $data['payments']->count() }} payments</small>
                 </div>
             </div>
@@ -141,7 +141,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="metric-card occupancy">
                     <div class="metric-label">Avg. Daily Revenue</div>
-                    <div class="metric-value">{{ number_format($data['averageRevenuePerDay'], 0, ',', '.') }}</div>
+                    <div class="metric-value">{{ Helper::convertToUGX($data['averageRevenuePerDay']) }}</div>
                     <small class="text-muted">Per day average</small>
                 </div>
             </div>

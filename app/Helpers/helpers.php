@@ -9,8 +9,14 @@ class Helper
 {
     public static function convertToRupiah($price)
     {
-        $price_rupiah = "Rp. " . number_format($price, 2, ',', '.');
-        return $price_rupiah;
+        // Legacy method - now converts to UGX (Ugandan Shillings)
+        return self::convertToUGX($price);
+    }
+
+    public static function convertToUGX($price)
+    {
+        $price_ugx = "UGX " . number_format($price, 0, ',', ',');
+        return $price_ugx;
     }
 
     public static function thisMonth()
