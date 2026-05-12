@@ -437,46 +437,77 @@ class ReportController extends Controller
      */
     public function exportPDF($type, Request $request)
     {
-        switch ($type) {
-            case 'daily':
-                $data = $this->getDailyData($request->input('date', now()));
-                $charts = $this->getDailyCharts($request->input('date', now()));
-                break;
-            case 'weekly':
-                $year = $request->input('year', now()->year);
-                $week = $request->input('week', now()->weekOfYear);
-                $data = $this->getWeeklyData($year, $week);
-                $charts = $this->getWeeklyCharts($year, $week);
-                break;
-            case 'monthly':
-                $year = $request->input('year', now()->year);
-                $month = $request->input('month', now()->month);
-                $data = $this->getMonthlyData($year, $month);
-                $charts = $this->getMonthlyCharts($year, $month);
-                break;
-            case 'annual':
-                $year = $request->input('year', now()->year);
-                $data = $this->getAnnualData($year);
-                $charts = $this->getAnnualCharts($year);
-                break;
-            default:
-                return response()->json(['error' => 'Invalid report type'], 400);
+        try {
+            switch ($type) {
+                case 'daily':
+                    $data = $this->getDailyData($request->input('date', now()));
+                    $charts = $this->getDailyCharts($request->input('date', now()));
+                    break;
+                case 'weekly':
+                    $year = $request->input('year', now()->year);
+                    $week = $request->input('week', now()->weekOfYear);
+                    $data = $this->getWeeklyData($year, $week);
+                    $charts = $this->getWeeklyCharts($year, $week);
+                    break;
+                case 'monthly':
+                    $year = $request->input('year', now()->year);
+                    $month = $request->input('month', now()->month);
+                    $data = $this->getMonthlyData($year, $month);
+                    $charts = $this->getMonthlyCharts($year, $month);
+                    break;
+                case 'annual':
+                    $year = $request->input('year', now()->year);
+                    $data = $this->getAnnualData($year);
+                    $charts = $this->getAnnualCharts($year);
+                    break;
+                default:
+                    return response()->json(['error' => 'Invalid report type'], 400);
+            }
+
+            // Ensure data exists
+            if (empty($data) || empty($charts)) {
+                return response()->json(['error' => 'No data available for the selected report'], 404);
+            }
+
+            // Generate PDF using mPDF with enhanced error handling
+            $mpdf = new \Mpdf\Mpdf([
+                'mode' => 'utf-8',
+                'format' => 'A4',
+                'margin_left' => 15,
+                'margin_right' => 15,
+                'margin_top' => 15,
+                'margin_bottom' => 15,
+                'debug' => env('APP_DEBUG', false)  // Enable debug mode in dev
+            ]);
+
+            // Set protection to prevent copying and printing
+            $mpdf->SetProtection([
+                'print',        // Allow printing
+                'copy',         // Prevent copying text/graphics
+                'modify'        // Prevent modifications
+            ], '', 'HotelSystem2026');
+
+            // Add watermark for added security
+            $mpdf->SetWatermarkText('Hotel Management System', 0.1);
+            $mpdf->showWatermarkText = true;
+            $mpdf->watermarkTextAlpha = 0.1;
+
+            $html = view('report.pdf_export', compact('type', 'data', 'charts'))->render();
+            $mpdf->WriteHTML($html);
+
+            // Stream the PDF
+            return $mpdf->Output("hotel_management_{$type}_report.pdf", 'D');
+
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('PDF Export Error: ' . $e->getMessage());
+
+            // Return user-friendly error
+            return response()->json([
+                'error' => 'Unable to generate PDF report',
+                'message' => 'An error occurred while creating the report. Please try again later.'
+            ], 500);
         }
-
-        // Generate PDF using mPDF
-        $mpdf = new \Mpdf\Mpdf([
-            'mode' => 'utf-8',
-            'format' => 'A4',
-            'margin_left' => 15,
-            'margin_right' => 15,
-            'margin_top' => 15,
-            'margin_bottom' => 15
-        ]);
-
-        $mpdf->WriteHTML(view('report.pdf_export', compact('type', 'data', 'charts'))->render());
-
-        // Stream the PDF
-        return $mpdf->Output("hotel_management_{$type}_report.pdf", 'D');
     }
 
     /**
