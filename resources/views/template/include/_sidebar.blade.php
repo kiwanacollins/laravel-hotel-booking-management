@@ -4,21 +4,59 @@
         margin-top: 0;
     }
 
-    /* Sidebar Enhancement */
-    .sidebar-label {
-        font-size: 0.7rem;
-        display: block;
-        margin-top: 0.25rem;
-        white-space: nowrap;
-        font-weight: 600;
+    #sidebar-wrapper {
+        background: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
+        transition: all 0.3s ease;
     }
 
-    .nav-link {
-        transition: all 0.2s ease;
+    .nav-pills .nav-link {
+        color: #0099ff;
+        transition: all 0.3s ease;
+        border-radius: 0.5rem;
+        margin: 0.25rem 0;
+    }
+
+    .nav-pills .nav-link:hover, 
+    .nav-pills .nav-link.active {
+        background-color: rgba(0, 153, 255, 0.1);
+        color: #0099ff;
+        transform: scale(1.05);
+    }
+
+    .sidebar-label {
+        color: #007acc;
+        font-weight: 600;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
     }
 
     .nav-link:hover .sidebar-label {
-        color: #667eea;
+        opacity: 1;
+    }
+
+    /* Subtle hover and active state animations */
+    .nav-link {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: all 0.5s ease;
+    }
+
+    .nav-link:hover::before {
+        left: 100%;
+    }
+
+    .nav-link.active {
+        box-shadow: 0 4px 6px rgba(0, 153, 255, 0.2);
     }
 </style>
 <div class="" id="sidebar-wrapper">

@@ -358,11 +358,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <script>
         const chartColors = {
-            primary: '#667eea',
-            success: '#43e97b',
-            danger: '#f5576c',
-            warning: '#ffa502',
-            info: '#4facfe'
+            primary: '#0099ff',     // Sky Blue
+            success: '#4facfe',     // Lighter Sky Blue
+            danger: '#ff6b6b',      // Soft Red
+            warning: '#feca57',     // Soft Yellow
+            info: '#1aadff'         // Vibrant Sky Blue
         };
 
         // Monthly Revenue Chart

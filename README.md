@@ -184,6 +184,14 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - Updated `convertToRupiah` method in `app/Helpers/helpers.php` to `convertToUGX`
 - All price displays in the system now use UGX formatting
 
+## UI Enhancements
+- Added a sky blue color theme across the application
+- Implemented gradient backgrounds for sidebar and main layout
+- Added subtle hover and animation effects to interactive elements
+- Improved color palette with soft, modern sky blue tones
+- Enhanced chart colors to match the new theme
+- Implemented responsive and interactive design elements
+
 
 php artisan serve
 npm run dev
