@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\TransactionRoomReservationController;
 use App\Http\Controllers\RoomStatusController;
@@ -67,6 +68,15 @@ Route::group(['middleware' => ['auth', 'checkRole:Super,Admin']], function () {
 
     Route::get('/get-dialy-guest-chart-data', [ChartController::class, 'dialyGuestPerMonth']);
     Route::get('/get-dialy-guest/{year}/{month}/{day}', [ChartController::class, 'dialyGuest'])->name('chart.dialyGuest');
+
+    // Report Routes
+    Route::name('report.')->group(function () {
+        Route::get('/reports', [ReportController::class, 'index'])->name('index');
+        Route::get('/reports/daily', [ReportController::class, 'daily'])->name('daily');
+        Route::get('/reports/weekly', [ReportController::class, 'weekly'])->name('weekly');
+        Route::get('/reports/monthly', [ReportController::class, 'monthly'])->name('monthly');
+        Route::get('/reports/annual', [ReportController::class, 'annual'])->name('annual');
+    });
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:Super,Admin,Customer']], function () {

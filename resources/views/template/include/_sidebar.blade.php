@@ -19,6 +19,15 @@
             </li>
             @if (auth()->user()->role == 'Super' || auth()->user()->role == 'Admin')
                 <li class="mb-2 bg-white rounded cursor-pointer">
+                    <a href="{{ route('report.index') }}"
+                        class="nav-link py-3 border-bottom border-right myBtn
+                        {{ in_array(Route::currentRouteName(), ['report.index', 'report.daily', 'report.weekly', 'report.monthly', 'report.annual']) ? 'active' : '' }}
+                        "
+                        data-bs-toggle="tooltip" data-bs-placement="right" title="Reports">
+                        <i class="fas fa-file-chart-line"></i>
+                    </a>
+                </li>
+                <li class="mb-2 bg-white rounded cursor-pointer">
                     <a href="{{ route('transaction.index') }}"
                         class="nav-link py-3 border-bottom border-right myBtn
                         {{ in_array(Route::currentRouteName(), ['payment.index', 'transaction.index', 'transaction.reservation.createIdentity', 'transaction.reservation.pickFromCustomer', 'transaction.reservation.usersearch', 'transaction.reservation.storeCustomer', 'transaction.reservation.viewCountPerson', 'transaction.reservation.chooseRoom', 'transaction.reservation.confirmation', 'transaction.reservation.payDownPayment']) ? 'active' : '' }}
