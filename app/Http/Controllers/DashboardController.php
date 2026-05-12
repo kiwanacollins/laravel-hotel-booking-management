@@ -42,7 +42,7 @@ class DashboardController extends Controller
             $availableRooms = $totalRooms - $occupiedRooms;
 
             // Room Status Distribution
-            $roomStatusDistribution = Room::with(['type', 'status'])
+            $roomStatusDistribution = Room::with(['type', 'roomStatus'])
                 ->leftJoin('transactions', function($join) {
                     $join->on('rooms.id', '=', 'transactions.room_id')
                          ->where('transactions.check_in', '<=', Carbon::now())
