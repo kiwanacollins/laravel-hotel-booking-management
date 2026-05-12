@@ -210,6 +210,20 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
   - Consistent formatting
   - Detailed information display
 
+## Improved Error Handling
+- Dashboard Empty State Management
+  - Graceful handling of zero rooms scenarios
+  - Informative messages for empty states
+  - Prevents system crashes when no data is available
+- Flexible Profile Picture Upload
+  - Default avatar when no picture is uploaded
+  - Validation for image file types and sizes
+  - Secure file naming and storage strategy
+- Robust Reporting System
+  - Handles scenarios with incomplete or missing data
+  - Prevents errors when no transactions exist
+  - Provides meaningful fallback messages and visualizations
+
 
 php artisan serve
 npm run dev

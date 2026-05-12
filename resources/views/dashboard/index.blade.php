@@ -140,7 +140,58 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-
+                        <div class="card shadow-sm border">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-lg-12 d-flex justify-content-between">
+                                        <h3>Room Status Details</h3>
+                                        <div>
+                                            <a href="#room-status-details" class="btn btn-tool btn-sm" data-bs-toggle="collapse">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body collapse" id="room-status-details">
+                                @if($roomStatusDistribution->isNotEmpty())
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Room Number</th>
+                                                    <th>Room Type</th>
+                                                    <th>Room Status</th>
+                                                    <th>Occupancy</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($roomStatusDistribution as $room)
+                                                    <tr>
+                                                        <td>{{ $room->number }}</td>
+                                                        <td>{{ $room->type_name }}</td>
+                                                        <td>
+                                                            <span class="badge {{ $room->status_name == 'Clean' ? 'bg-success' : 'bg-warning' }}">
+                                                                {{ $room->status_name }}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge {{ $room->occupancy_status == 'Occupied' ? 'bg-danger' : 'bg-success' }}">
+                                                                {{ $room->occupancy_status }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning mb-0">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>No rooms have been added to the system yet.
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

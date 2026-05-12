@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Room;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -36,7 +38,7 @@ class DashboardController extends Controller
                 'rooms.number', 
                 'types.name as type_name', 
                 'room_statuses.name as status_name',
-                \DB::raw('CASE WHEN transactions.id IS NOT NULL THEN "Occupied" ELSE "Available" END as occupancy_status')
+                DB::raw('CASE WHEN transactions.id IS NOT NULL THEN "Occupied" ELSE "Available" END as occupancy_status')
             )
             ->join('types', 'rooms.type_id', '=', 'types.id')
             ->join('room_statuses', 'rooms.room_status_id', '=', 'room_statuses.id')
@@ -48,6 +50,9 @@ class DashboardController extends Controller
             'occupiedRooms' => $occupiedRooms,
             'availableRooms' => $availableRooms,
             'roomStatusDistribution' => $roomStatusDistribution
+        ]);
+    }
+}
         ]);
     }
 }
