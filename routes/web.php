@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiagnosticController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
@@ -108,4 +109,12 @@ Route::get('/sendEvent', function () {
         $message = 'Reservation added by';
         // event(new NewReservationEvent($message, $superAdmin));
     }
+});
+
+// Diagnostic Routes (for debugging access issues)
+Route::prefix('diagnostic')->name('diagnostic.')->group(function () {
+    Route::get('/auth', [DiagnosticController::class, 'checkAuth'])->name('auth');
+    Route::get('/database', [DiagnosticController::class, 'checkDatabase'])->name('database');
+    Route::get('/role-access', [DiagnosticController::class, 'checkRoleAccess'])->name('roleAccess');
+    Route::get('/dashboard-access', [DiagnosticController::class, 'checkDashboard'])->name('dashboardAccess');
 });

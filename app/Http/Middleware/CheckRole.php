@@ -16,25 +16,33 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        // Debug logging
-        \Log::info('Role Check', [
-            'current_user_role' => $request->user()->role ?? 'No Role',
-            'allowed_roles' => $roles,
-            'user_id' => $request->user()->id ?? 'No User'
+        // Check if user is authenticated
+        if (!$request->user()) {
+            return redirect('login')->with('failed', 'Please log in first');
+        }
+
+        // Check if user has required role
+        $userRole = $request->user()->role;
+        
+        // Log the role check attempt
+        \Log::info('Role check', [
+            'user_id' => $request->user()->id,
+            'user_role' => $userRole,
+            'required_roles' => $roles
         ]);
 
-        if ($request->user() && in_array($request->user()->role, $roles))
-        {
+        if (in_array($userRole, $roles)) {
             return $next($request);
         }
 
-        // More detailed error logging
-        \Log::warning('Dashboard Access Denied', [
-            'user_role' => $request->user()->role ?? 'No Role',
+        // Log unauthorized access attempt
+        \Log::warning('Unauthorized access attempt', [
+            'user_id' => $request->user()->id,
+            'user_role' => $userRole,
             'required_roles' => $roles,
-            'user_id' => $request->user()->id ?? 'No User'
+            'path' => $request->path()
         ]);
 
-        return redirect('login')->with('failed', 'You are not authorized to access this page');
+        return redirect()->back()->with('failed', 'You are not authorized to access this page');
     }
 }

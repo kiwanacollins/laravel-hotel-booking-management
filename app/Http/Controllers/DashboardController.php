@@ -12,6 +12,19 @@ class DashboardController extends Controller
     public function index()
     {
         try {
+            // Verify user is authenticated and has a role
+            $user = auth()->user();
+            
+            if (!$user) {
+                return redirect('login')->with('failed', 'Please log in first');
+            }
+
+            \Log::info('Dashboard accessed', [
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'user_role' => $user->role
+            ]);
+
             // Current Active Transactions
             $transactions = Transaction::with('user', 'room', 'customer')
                 ->where([['check_in', '<=', Carbon::now()], ['check_out', '>=', Carbon::now()]])
@@ -50,7 +63,8 @@ class DashboardController extends Controller
             \Log::info('Dashboard data retrieved successfully', [
                 'total_rooms' => $totalRooms,
                 'occupied_rooms' => $occupiedRooms,
-                'available_rooms' => $availableRooms
+                'available_rooms' => $availableRooms,
+                'transactions_count' => count($transactions)
             ]);
 
             return view('dashboard.index', [
@@ -58,17 +72,20 @@ class DashboardController extends Controller
                 'totalRooms' => $totalRooms,
                 'occupiedRooms' => $occupiedRooms,
                 'availableRooms' => $availableRooms,
-                'roomStatusDistribution' => $roomStatusDistribution
+                'roomStatusDistribution' => $roomStatusDistribution,
+                'user' => $user
             ]);
         } catch (\Exception $e) {
             // Log the error
             \Log::error('Dashboard controller error', [
                 'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
             ]);
 
-            // Optionally redirect with error message
-            return redirect()->back()->with('error', 'An error occurred while loading the dashboard');
+            // Return to login if there's an error
+            return redirect('login')->with('error', 'An error occurred while loading the dashboard: ' . $e->getMessage());
         }
     }
 }
